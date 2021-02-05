@@ -145,6 +145,21 @@ void login(char ori_username[20],char ori_password[20])
         main_menu(); 
     }
 }
+//main menu 
 void main_menu(){
+    printf("\t\t\t\t\t\t\t---------------------------\n");
+    printf("\t\t\t\t\t\t\t          Main Menu\n");
+    printf("\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+    int n;
+    while(1){
+        printf("1. Exit\n\n"); 
+        printf("Enter the choice: ");
+        scanf("%d", &n);
+        switch(n){
+            case 1: printf("Exiting ..."); return; break;
+            default: printf("\nInvalid choice, try again\n"); continue;
+        }
+    }
 
+    
 }
