@@ -70,7 +70,7 @@ void login(char ori_username[20],char ori_password[20])
         scanf("%s",password);
         // using strcmp to compare strings --->https://www.geeksforgeeks.org/strcmp-in-c-cpp/
         if(strcmp(username,ori_username)==0 && strcmp(password,ori_password)==0){
-            printf("\n\n\t\t\t\t\t\t\t\t\tLOGGED in SICCSSFULLY !! :) :)\n");
+            printf("\n\n\t\t\t\t\t\t\t\t\tLOGGED in SUCCESSFULLY !! :) :)\n\n");
             break;
         }
         else{
@@ -146,6 +146,32 @@ void login(char ori_username[20],char ori_password[20])
         main_menu(); 
     }
 }
-void main_menu(){
+void main_menu()
+{
+    int choice1,i;
+    char govthos[6][20] = {"AIIMS","JIPMER","VNMC","RML","LNJP","KGMU"};
+    char prihos[6][20] ={"APOLLO","MEDANTA","FORTIS","SAHARA","SNMC","ARTEMIS"};
+    int bed_avai_gov[6] ={225,175,150,130,105,100};
+    int bed_occ_gov[6] = {475,525,550,570,595,600};
+    int bed_avai_pri[6] = {125,100,75,60,45,30};
+    int bed_occ_pri[6] = {175,200,225,240,255,270};
+    printf("\t\t\t\t\t\t\t\tEnter the type of hospital you want to choose ?\n\n");
+    printf("\t\t\t\t\t\t\t\tPress 1 for List of Government Hospital !!\n");
+    printf("\t\t\t\t\t\t\t\tPress 2 for List of Private Hospital !!\n");
+    printf("\t\t\t\t\t\t\t\tResponse : ");
+    fflush(stdin);
+    scanf("%d",&choice1);
+    printf("\n");
+    printf("\t\t\t\t\t\t\t\tName\t  Beds Available  Beds Occupied\n\n");
 
+    if(choice1==1)
+    {
+        for(i=0;i<6;i++)
+        printf("\t\t\t\t\t\t\t\t%s\t\t%d\t\t%d\n",govthos[i],bed_avai_gov[i],bed_occ_gov[i]);
+    }
+    else if(choice1==2)
+    {
+        for(i=0;i<6;i++)
+        printf("\t\t\t\t\t\t\t\t%s\t\t%d\t\t%d\n",prihos[i],bed_avai_pri[i],bed_occ_pri[i]);
+    }
 }
