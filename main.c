@@ -9,6 +9,12 @@ void title();
 void login();
 void main_menu();
 void signup();
+void mainmenu_heading();
+void give_tab();
+void addrecord();
+void listrecord();
+void editrecord();
+void _e_xit();
 
 int main(){
     welcome_screen();
@@ -40,6 +46,16 @@ void title(){
     printf("\t\t\t\t\t\t\t\t----------------------------------------------------------\n");
     printf("\t\t\t\t\t\t\t\t                     STAY HOME,STAY SAFE                  \n");
     printf("\t\t\t\t\t\t\t\t----------------------------------------------------------\n");
+}
+//main menu heading
+void mainmenu_heading(){
+    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n");
+    printf("\t\t\t\t\t\t\t\t\t\t         Main Menu\n");
+    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+}
+// printinging tab
+void give_tab(){
+    printf("\t\t\t\t\t\t\t\t");
 }
 // Creating Id for user
 void signup()
@@ -92,18 +108,48 @@ void login(){
 }
 //main menu 
 void main_menu(){
-    printf("\t\t\t\t\t\t\t---------------------------\n");
-    printf("\t\t\t\t\t\t\t          Main Menu\n");
-    printf("\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+    system("cls");  
+    title();
+    mainmenu_heading();
+    
+    give_tab();printf("1. Add Patient Record\n\n"); 
+    give_tab();printf("2. List Patient Record\n\n"); 
+    give_tab();printf("3. Edit Patient Record\n\n"); 
+    give_tab();printf("4. Exit\n\n"); 
+    give_tab();printf("Enter a number between 1-4\n\n");
+    give_tab();printf("Enter your choice: ");
     int n;
-    while(1){
-        printf("1. Exit\n\n"); 
-        printf("Enter the choice: ");
-        scanf("%d", &n);
-        switch(n){
-            case 1: printf("Exiting ..."); return; break;
-            default: printf("\nInvalid choice, try again\n"); continue;
-        }
+    A:
+    scanf("%d", &n);
+    switch(n){
+        case 1:
+        addrecord();
+        break;
+        case 2:
+        listrecord();
+        break;
+        case 3:
+        editrecord();
+        break;
+        case 4:
+        _e_xit();
+        break;
+        default: 
+        give_tab();printf("Invalid entry, Please try again\n"); 
+        goto A;
     }
-
 }
+//exit function
+void _e_xit(){
+    system("cls");  
+    title();printf("\t\t\t\t\t\t\t\t\t\t         Main Menu\n");
+    give_tab();printf("This code is written and maintained by---\n");
+    give_tab();printf("1. Ansh IMT-014\n");
+    give_tab();printf("2. Ketan IMT-066\n");
+    give_tab();printf("3. Arun IMT-016\n");
+    give_tab();printf("Press any key to exit...\n");getch();
+    give_tab();printf("exiting............\n");
+}
+void addrecord(){}
+void listrecord(){}
+void editrecord(){}
