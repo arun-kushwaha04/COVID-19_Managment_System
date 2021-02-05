@@ -51,7 +51,6 @@ void signup()
     printf("\t\t\t\t\t\t\t\t\tPassword : ");
     scanf("%s",password);
     system("cls");
-    
     login(username,password);
 }
 
