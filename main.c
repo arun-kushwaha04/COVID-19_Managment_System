@@ -52,9 +52,9 @@ void login(){
     do{
         printf("\t\t\t\t\t\t\t\tEnter your Username and Password :)\n");
         printf("\t\t\t\t\t\t\t\t\tUSERNAME: ");
-        scanf("%s",&username);
+        scanf("%s",username);
         printf("\t\t\t\t\t\t\t\t\tPASSWORD: ");
-        scanf("%s",&password);
+        scanf("%s",password);
         // using strcmp to compare strings --->https://www.geeksforgeeks.org/strcmp-in-c-cpp/
         if(strcmp(username,original_username)==0 && strcmp(password,original_password)==0){
             printf("\n\n\t\t\t\t\t\t\t\t\tLOGGED in SICCSSFULLY !! :) :)\n");
@@ -76,6 +76,21 @@ void login(){
         main_menu(); 
     }
 }
+//main menu 
 void main_menu(){
+    printf("\t\t\t\t\t\t\t---------------------------\n");
+    printf("\t\t\t\t\t\t\t          Main Menu\n");
+    printf("\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+    int n;
+    while(1){
+        printf("1. Exit\n\n"); 
+        printf("Enter the choice: ");
+        scanf("%d", &n);
+        switch(n){
+            case 1: printf("Exiting ..."); return; break;
+            default: printf("\nInvalid choice, try again\n"); continue;
+        }
+    }
 
+    
 }
