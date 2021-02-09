@@ -2,6 +2,7 @@
 #include<conio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
 
 //###########################################################function declartion########################################################
 void welcome_screen();
@@ -15,7 +16,17 @@ void addrecord();
 void listrecord();
 void editrecord();
 void _e_xit();
+struct patient{
+    char id[6];
+    char bed[4];
+    char f_name[11];
+    char l_name[11];
+    char age[4];
+    char gender;
+    char number[12];
+};
 
+struct patient p;
 int main(){
     welcome_screen();
     title();
@@ -114,7 +125,7 @@ void main_menu(){
     
     give_tab();printf("1. Add Patient Record\n\n"); 
     give_tab();printf("2. List Patient Record\n\n"); 
-    give_tab();printf("3. Edit Patient Record\n\n"); 
+    give_tab();printf("3. Update Patient Record\n\n"); 
     give_tab();printf("4. Exit\n\n"); 
     give_tab();printf("Enter a number between 1-4\n\n");
     give_tab();printf("Enter your choice: ");
@@ -135,8 +146,8 @@ void main_menu(){
         _e_xit();
         break;
         default: 
-        give_tab();printf("Invalid entry, Please try again\n"); 
-        goto A;
+        give_tab();printf("Invalid entry, Please try again\n");
+        main_menu();break;
     }
 }
 //exit function
@@ -147,9 +158,65 @@ void _e_xit(){
     give_tab();printf("1. Ansh IMT-014\n");
     give_tab();printf("2. Ketan IMT-066\n");
     give_tab();printf("3. Arun IMT-016\n");
-    give_tab();printf("Press any key to exit...\n");getch();
+    give_tab();printf("Press any key to exit...\n\n");getch();
     give_tab();printf("exiting............\n");
 }
-void addrecord(){}
-void listrecord(){}
+//checker function...
+void checker(char str[]){
+    
+}
+void addrecord(){
+    system("cls");
+    title();printf("\t\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!\n\n\n");
+    FILE *ptr;
+    ptr = fopen("data.csv","a");
+    if(ptr==NULL){
+        perror("Unable to open file");
+        return ;
+    }
+    fflush(stdin);
+    give_tab();printf("Enter patients I'D: ");scanf("%s",p.id);fflush(stdin);
+    give_tab();printf("Enter patients Bed number: ");scanf("%s",p.bed);fflush(stdin);
+    give_tab();printf("Enter patients First Name: ");scanf("%s",p.f_name);fflush(stdin);
+    give_tab();printf("Enter patients Last Name: ");scanf("%s",p.l_name);fflush(stdin);
+    give_tab();printf("Enter patients Age: ");scanf("%s",p.age);fflush(stdin);
+    give_tab();printf("Enter patients gender: ");scanf("%c",&p.gender);fflush(stdin);
+    give_tab();printf("Enter patients Number: ");scanf("%s",p.number);fflush(stdin);
+    give_tab();printf("Saving Data press any key to continue... ");getchar();fflush(stdin);
+    
+    fprintf(ptr,"%s,%s,%s,%s,%c,%s\n",p.id,p.bed,p.f_name,p.l_name,p.age,p.gender,p.number);
+    fclose(ptr);printf("\n");
+    give_tab();printf("Record Created Successfully!!\n\n");
+    char choice;
+    give_tab();printf("Want to another record[Y/N]");scanf("%c",&choice);
+    if(choice=='Y')addrecord();
+    else main_menu();
+}
+void listrecord(){
+    system("cls");
+    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! PATIENT RECORD !!!!!!!!!!!!!!!\n");
+    FILE *ptr;
+    ptr = fopen("data.csv","r");
+    if(ptr==NULL){
+        perror("Unable to open file");
+        return ;
+    }
+
+    char info[100];
+    while(fgets(info,sizeof(info),ptr)){
+        char *token;
+        token = strtok(info, ",");
+        while( token != NULL ) {
+            printf("\t");
+            printf( " %-20s", token );
+            token = strtok(NULL, ",");
+        }
+        printf("\n");
+    }
+    fclose(ptr);
+    printf("\n");
+    give_tab();printf("This is the end of record");
+    getch();
+    main_menu();
+}
 void editrecord(){}
