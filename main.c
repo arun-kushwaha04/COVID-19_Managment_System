@@ -105,39 +105,43 @@ void login(){
         system("cls");   
         main_menu(); 
     }
+    return;
 }
 //main menu 
 void main_menu(){
     system("cls");  
-    title();
-    mainmenu_heading();
-    
-    give_tab();printf("1. Add Patient Record\n\n"); 
-    give_tab();printf("2. List Patient Record\n\n"); 
-    give_tab();printf("3. Edit Patient Record\n\n"); 
-    give_tab();printf("4. Exit\n\n"); 
-    give_tab();printf("Enter a number between 1-4\n\n");
-    give_tab();printf("Enter your choice: ");
-    int n;
-    A:
-    scanf("%d", &n);
-    switch(n){
-        case 1:
-        addrecord();
-        break;
-        case 2:
-        listrecord();
-        break;
-        case 3:
-        editrecord();
-        break;
-        case 4:
-        _e_xit();
-        break;
-        default: 
-        give_tab();printf("Invalid entry, Please try again\n"); 
-        goto A;
+    while(1){
+        title();
+        mainmenu_heading();
+        
+        give_tab();printf("1. Add Patient Record\n\n"); 
+        give_tab();printf("2. List Patient Record\n\n"); 
+        give_tab();printf("3. Edit Patient Record\n\n"); 
+        give_tab();printf("4. Exit\n\n"); 
+        give_tab();printf("Enter a number between 1-4\n\n");
+        give_tab();printf("Enter your choice: ");
+        int n;
+        scanf("%d", &n);
+        switch(n){
+            case 1:
+            addrecord();
+            break;
+            case 2:
+            listrecord();
+            break;
+            case 3:
+            editrecord();
+            break;
+            case 4:
+            _e_xit();
+            return;
+            break;
+            default: 
+            give_tab();printf("Invalid entry, press enter to try again\n"); getch();
+            continue;
+        }
     }
+    return;
 }
 //exit function
 void _e_xit(){
@@ -149,6 +153,7 @@ void _e_xit(){
     give_tab();printf("3. Arun IMT-016\n");
     give_tab();printf("Press any key to exit...\n");getch();
     give_tab();printf("exiting............\n");
+    return;
 }
 void addrecord(){}
 void listrecord(){}
