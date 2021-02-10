@@ -16,21 +16,12 @@ void addrecord();
 void listrecord();
 void editrecord();
 void _e_xit();
-struct patient{
-    char id[6];
-    char bed[4];
-    char f_name[11];
-    char l_name[11];
-    char age[4];
-    char gender;
-    char number[12];
-};
 
-struct patient p;
 int main(){
     welcome_screen();
     title();
-    login();
+    //login();
+    main_menu();
     return 0;
 }
 
@@ -169,23 +160,22 @@ void addrecord(){
     system("cls");
     title();printf("\t\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!\n\n\n");
     FILE *ptr;
-    ptr = fopen("data.csv","a");
+    ptr = fopen("patientdata.csv","a");
     if(ptr==NULL){
         perror("Unable to open file");
         return ;
     }
+    char a[6],b[4],c[11],d[11],e[4],f,g[11];
     fflush(stdin);
-    give_tab();printf("Enter patients I'D: ");scanf("%s",p.id);fflush(stdin);
-    give_tab();printf("Enter patients Bed number: ");scanf("%s",p.bed);fflush(stdin);
-    give_tab();printf("Enter patients First Name: ");scanf("%s",p.f_name);fflush(stdin);
-    give_tab();printf("Enter patients Last Name: ");scanf("%s",p.l_name);fflush(stdin);
-    give_tab();printf("Enter patients Age: ");scanf("%s",p.age);fflush(stdin);
-    give_tab();printf("Enter patients gender: ");scanf("%c",&p.gender);fflush(stdin);
-    give_tab();printf("Enter patients Number: ");scanf("%s",p.number);fflush(stdin);
-    give_tab();printf("Saving Data press any key to continue... ");getchar();fflush(stdin);
-    
-    fprintf(ptr,"%s,%s,%s,%s,%c,%s\n",p.id,p.bed,p.f_name,p.l_name,p.age,p.gender,p.number);
-    fclose(ptr);printf("\n");
+    give_tab();printf("Enter patient's I'D: ");scanf("%s",a);fflush(stdin);
+    give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
+    give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
+    give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
+    give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
+    give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
+    give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
+    fprintf(ptr,"%s,%s,%s,%s,%s,%c,%s\n",a,b,c,d,e,f,g);
+    fclose(ptr);
     give_tab();printf("Record Created Successfully!!\n\n");
     char choice;
     give_tab();printf("Want to another record[Y/N]");scanf("%c",&choice);
@@ -196,7 +186,7 @@ void listrecord(){
     system("cls");
     title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! PATIENT RECORD !!!!!!!!!!!!!!!\n");
     FILE *ptr;
-    ptr = fopen("data.csv","r");
+    ptr = fopen("patientdata.csv","r");
     if(ptr==NULL){
         perror("Unable to open file");
         return ;
