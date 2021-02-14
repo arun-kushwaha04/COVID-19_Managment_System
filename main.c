@@ -14,6 +14,7 @@ void give_tab();
 void addrecord();
 void listrecord();
 void editrecord();
+void deleterecord();
 void _e_xit();
 
 int main(){
@@ -109,16 +110,17 @@ void login(){
 }
 //main menu 
 void main_menu(){
-    system("cls");  
     while(1){
+        system("cls");
         title();
         mainmenu_heading();
         
         give_tab();printf("1. Add Patient Record\n\n"); 
         give_tab();printf("2. List Patient Record\n\n"); 
         give_tab();printf("3. Edit Patient Record\n\n"); 
-        give_tab();printf("4. Exit\n\n"); 
-        give_tab();printf("Enter a number between 1-4\n\n");
+        give_tab();printf("4. Delete Patient Record\n\n");
+        give_tab();printf("5. Exit\n\n"); 
+        give_tab();printf("Enter a number between 1-5\n\n");
         give_tab();printf("Enter your choice: ");
         int n;
         scanf("%d", &n);
@@ -132,7 +134,10 @@ void main_menu(){
             case 3:
             editrecord();
             break;
-            case 4:
+            case 4: 
+            deleterecord(); 
+            break;
+            case 5:
             _e_xit();
             return;
             break;
@@ -178,13 +183,13 @@ void addrecord(){
     give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
     give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
     give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
-    fprintf(ptr,"%s,%s,%s,%s,%s,%c,%s\n",a,b,c,d,e,f,g);
+    fprintf(ptr,"%s,%3s,%10s,%10s,%3s,%c,%10s\n",a,b,c,d,e,f,g);
     fclose(ptr);
     give_tab();printf("Record Created Successfully!!\n\n");
     char choice;
-    give_tab();printf("Want to another record[Y/N]");scanf("%c",&choice);
+    give_tab();printf("Want to add another record[Y/N]");scanf("%c",&choice);
     if(choice=='Y')addrecord();
-    else main_menu();
+    return;
 }
 void listrecord(){
     system("cls");
@@ -211,6 +216,87 @@ void listrecord(){
     printf("\n");
     give_tab();printf("This is the end of record");
     getch();
-    main_menu();
+    return;
 }
-void editrecord(){}
+void editrecord(){
+    system("cls");
+    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! EDIT PATIENT RECORD !!!!!!!!!!!!!!!\n");
+    char choice; 
+    while(1){
+        FILE* ptr = NULL;
+        int n;
+        ptr = fopen("patientdata.csv", "r+");
+        if (ptr == NULL){
+            printf("Cannot access file");
+            return;
+        }
+        give_tab();printf("Enter the Patient ID: ");
+        scanf("%d", &n);
+        while (1){
+            fscanf(ptr,"%*[^\n]s");
+            if (fgetc(ptr) == EOF){
+                printf("This patient number does not exist, try again");
+                getch();
+                break;
+            } 
+            if (fgetc(ptr) - '0' == n){
+                fseek(ptr, 0, SEEK_CUR);
+                char b[4],c[11],d[11],e[4],f,g[11];
+                fflush(stdin);
+                give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
+                give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
+                give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
+                give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
+                give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
+                give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
+                fprintf(ptr,",%3s,%10s,%10s,%3s,%c,%10s",b,c,d,e,f,g);
+                fseek(ptr, 0, SEEK_SET);
+                break;
+            }
+        }
+        fclose(ptr);
+        printf("Do you want to edit more patient records? [Y/N]");
+        scanf(" %c", &choice);
+        give_tab();printf("Record Edited Successfully!!\n\n");
+        if (choice == 'Y') continue; 
+        else break;
+    }    
+}
+
+void deleterecord(){
+    system("cls");
+    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! DELETE PATIENT RECORD !!!!!!!!!!!!!!!\n");
+    char choice; 
+    while(1){
+        FILE* ptr = NULL;
+        int n;
+        ptr = fopen("patientdata.csv", "r+");
+        if (ptr == NULL){
+            printf("Cannot access file");
+            return;
+        }
+        give_tab();printf("Enter the Patient ID: ");
+        scanf("%d", &n);
+        while (1){
+            fscanf(ptr,"%*[^\n]s");
+            if (fgetc(ptr) == EOF){
+                printf("This patient number does not exist, try again");
+                getch();
+                break;
+            } 
+            if (fgetc(ptr) - '0' == n){
+                fseek(ptr, -1, SEEK_CUR);
+                fflush(stdin);
+                fprintf(ptr, "%45s", " ");
+                fseek(ptr, 0, SEEK_SET);
+                break;
+            }
+        }
+        fclose(ptr);
+        give_tab();printf("Record Edited Successfully!!\n\n");
+        give_tab();printf("Do you want to delete more patient records? (Y/N)");
+        scanf(" %c", &choice);
+        if (choice == 'Y') continue; 
+        else break;
+    }    
+}
