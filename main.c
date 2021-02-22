@@ -11,6 +11,7 @@ void main_menu();
 void signup();
 void mainmenu_heading();
 void give_tab();
+void hospitals();
 void addrecord();
 void listrecord();
 void editrecord();
@@ -167,6 +168,16 @@ void _e_xit(){
     return;
 }
 
+//List of hospitals
+void hospitals(){
+    give_tab();printf("1. AIIMS\n\n"); 
+    give_tab();printf("2. Apollo\n\n"); 
+    give_tab();printf("3. Fortis\n\n"); 
+    give_tab();printf("4. Max Super\n\n"); 
+    give_tab();printf("5. Vedanta\n\n");
+    give_tab();printf("Enter a number between 1-5\n\n");
+    give_tab();printf("Enter your choice: ");
+}
 //checker function...
 void checker(char str[]){
     
@@ -176,13 +187,7 @@ void addrecord(){
     title();printf("\t\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!\n\n\n");
     FILE *ptr,*ptr2;
     int n;
-    give_tab();printf("1. AIIMS\n\n"); 
-    give_tab();printf("2. Apollo\n\n"); 
-    give_tab();printf("3. Fortis\n\n"); 
-    give_tab();printf("4. Max Super\n\n"); 
-    give_tab();printf("5. Vedanta\n\n");
-    give_tab();printf("Enter a number between 1-5\n\n");
-    give_tab();printf("Enter your choice: ");
+    hospitals();
     scanf("%d", &n);
     switch(n){
         case 1:
@@ -235,13 +240,13 @@ void addrecord(){
     give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
     give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
     give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
-    fprintf(ptr,"%s,%s,%s,%s,%s,%c,%s\n",b,b,c,d,e,f,g);
+    fprintf(ptr,"%s,%3s,%10s,%10s,%3s,%c,%10s\n",b,b,c,d,e,f,g);
     fclose(ptr);
     give_tab();printf("Record Created Successfully!!\n\n");
     char choice;
     give_tab();printf("Want to add another record[Y/N]");scanf("%c",&choice);
     if(choice=='Y')addrecord();
-    else main_menu();
+    else return;
 }
 
 //Generating Id and bed number
@@ -295,13 +300,7 @@ void listrecord(){
     title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! PATIENT RECORD !!!!!!!!!!!!!!!\n");
     FILE *ptr;
     int n;
-    give_tab();printf("1. AIIMS\n\n"); 
-    give_tab();printf("2. Apollo\n\n"); 
-    give_tab();printf("3. Fortis\n\n"); 
-    give_tab();printf("4. Max Super\n\n"); 
-    give_tab();printf("5. Vedanta\n\n");
-    give_tab();printf("Enter a number between 1-5\n\n");
-    give_tab();printf("Enter your choice: ");
+    hospitals();
     scanf("%d", &n);
     switch(n){
         case 1:
@@ -359,7 +358,7 @@ void listrecord(){
     printf("\n");
     give_tab();printf("This is the end of record");
     getch();
-    main_menu();
+    return;
 }
 
 /*different hospital data*/
@@ -390,34 +389,121 @@ void show_vacant_beds(){
     printf("\n");
     give_tab();printf("This is the end of record");
     getch();
-    main_menu();
+    return;
 }
 
 void editrecord(){
-    system("cls");
-    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! EDIT PATIENT RECORD !!!!!!!!!!!!!!!\n");
-    char choice; 
     while(1){
-        FILE* ptr = NULL;
-        int n;
-        ptr = fopen("patientdata.csv", "r+");
-        if (ptr == NULL){
-            printf("Cannot access file");
-            return;
-        }
-        give_tab();printf("Enter the Patient ID: ");
+        system("cls");
+        title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! EDIT PATIENT RECORD !!!!!!!!!!!!!!!\n");
+        FILE *ptr;
+        int n, id, id1, i, occupied;
+        hospitals();
         scanf("%d", &n);
-        while (1){
-            fscanf(ptr,"%*[^\n]s");
-            if (fgetc(ptr) == EOF){
-                printf("This patient number does not exist, try again");
-                getch();
-                break;
-            } 
-            if (fgetc(ptr) - '0' == n){
+        switch(n){
+            case 1:
+            ptr = fopen("./Database/AIIMS/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 2:
+            ptr = fopen("./Database/Apollo/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 3:
+            ptr = fopen("./Database/Fortis/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 4:
+            ptr = fopen("./Database/Max Super/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 5: 
+            ptr = fopen("./Database/Vedanta/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            default: 
+            give_tab();printf("Invalid entry, press enter to try again\n"); getch();
+            break;
+        }
+
+        char info[100];
+        while(fgets(info,sizeof(info),ptr)){
+            char *token;
+            token = strtok(info, ",");
+            while( token != NULL ) {
+                printf("\t");
+                printf( " %-20s", token );
+                token = strtok(NULL, ",");
+            }
+            printf("\n");
+        }
+        fclose(ptr);
+        switch(n){
+            case 1:
+            ptr = fopen("./Database/AIIMS/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 2:
+            ptr = fopen("./Database/Apollo/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 3:
+            ptr = fopen("./Database/Fortis/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 4:
+            ptr = fopen("./Database/Max Super/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 5: 
+            ptr = fopen("./Database/Vedanta/patient.csv","r+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            default: 
+            give_tab();printf("Invalid entry, press enter to try again\n"); getch();
+            break;
+        }
+
+        printf("Enter patient ID: ");
+        scanf("%d", &id);
+        fscanf(ptr, "%*[^\n]s");
+        
+        while(fscanf(ptr, "%d", &id1) != EOF){
+            if (id1 == id){
                 fseek(ptr, 0, SEEK_CUR);
                 char b[4],c[11],d[11],e[4],f,g[11];
                 fflush(stdin);
+                give_tab();printf("Enter the new info: \n");
                 give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
                 give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
                 give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
@@ -428,50 +514,93 @@ void editrecord(){
                 fseek(ptr, 0, SEEK_SET);
                 break;
             }
+            fscanf(ptr, "%*[^\n]s");
         }
         fclose(ptr);
-        printf("Do you want to edit more patient records? [Y/N]");
-        scanf(" %c", &choice);
-        give_tab();printf("Record Edited Successfully!!\n\n");
-        if (choice == 'Y') continue; 
+        printf("Do you want to edit more records (y/n) ?");
+        char choice; 
+        fflush(stdin);
+        scanf("%c", &choice);
+        if (choice == 'y') continue;
         else break;
-    }    
+    }
 }
 
 void deleterecord(){
-    system("cls");
-    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! DELETE PATIENT RECORD !!!!!!!!!!!!!!!\n");
-    char choice; 
     while(1){
-        FILE* ptr = NULL;
-        int n;
-        ptr = fopen("patientdata.csv", "r+");
-        if (ptr == NULL){
-            printf("Cannot access file");
-            return;
-        }
-        give_tab();printf("Enter the Patient ID: ");
+        system("cls");
+        title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! DELETE PATIENT RECORD !!!!!!!!!!!!!!!\n");
+        FILE *ptr, *ptr2;
+        int n, id, id1, i, occupied;
+        hospitals();
         scanf("%d", &n);
-        while (1){
-            fscanf(ptr,"%*[^\n]s");
-            if (fgetc(ptr) == EOF){
-                printf("This patient number does not exist, try again");
-                getch();
-                break;
-            } 
-            if (fgetc(ptr) - '0' == n){
-                fseek(ptr, -1, SEEK_CUR);
-                fflush(stdin);
-                fprintf(ptr, "%45s", " ");
+        switch(n){
+            case 1:
+            ptr = fopen("./Database/AIIMS/patient.csv","r+");
+            ptr2 = fopen("./Database/AIIMS/ID.txt", "a+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 2:
+            ptr = fopen("./Database/Apollo/patient.csv","r+");
+            ptr2 = fopen("./Database/Apollo/ID.txt", "a+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 3:
+            ptr = fopen("./Database/Fortis/patient.csv","r+");
+            ptr2 = fopen("./Database/Fortis/ID.txt", "a+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 4:
+            ptr = fopen("./Database/Max Super/patient.csv","r+");
+            ptr2 = fopen("./Database/Max Super/ID.txt", "a+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            case 5: 
+            ptr = fopen("./Database/Vedanta/patient.csv","r+");
+            ptr2 = fopen("./Database/Vedanta/ID.txt", "a+");
+            if(ptr==NULL){
+            perror("Unable to open file");
+            return ;
+            }
+            break;
+            default: 
+            give_tab();printf("Invalid entry, press enter to try again\n"); getch();
+            break;
+        }
+        give_tab();printf("Enter patient ID: ");
+        scanf("%d", &id);
+        fscanf(ptr, "%*[^\n]s");
+        while(fscanf(ptr, "%d", &id1) != EOF){
+            if (id1 == id){
+                fseek(ptr, -1,SEEK_CUR);
+                fprintf(ptr, "%44s"," ");
                 fseek(ptr, 0, SEEK_SET);
+                give_tab();printf("Record deleted successfully\n");
                 break;
             }
+            fscanf(ptr, "%*[^\n]s");
         }
+        fprintf(ptr2,"%d\n", id);
         fclose(ptr);
-        give_tab();printf("Record Edited Successfully!!\n\n");
-        give_tab();printf("Do you want to delete more patient records? (Y/N)");
-        scanf(" %c", &choice);
-        if (choice == 'Y') continue; 
+        fclose(ptr2);
+        give_tab();printf("Press enter to go back to main menu....");
+        printf("Do you wish to delete more records (y/n) ?");
+        fflush(stdin);
+        char choice;
+        scanf("%c", &choice);
+        if (choice == 'y') continue;
         else break;
-    }    
+    }
 }
