@@ -1,6 +1,7 @@
 Hospital Name,Capacity,Occupied 
-AIIMS,100,1
-Apollo,100,0
-Fortis,100,0
-Max Super,100,0
-Vedanata,100,0
+Hospital Name,Capacity,Occupied 
+AIIMS,100,6
+Apollo,100,5
+Fortis,100,5
+Max Super,100,5
+Vedanata,100,5

@@ -185,13 +185,15 @@ void checker(char str[]){
 void addrecord(){
     system("cls");
     title();printf("\t\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!\n\n\n");
-    FILE *ptr,*ptr2;
+    FILE *ptr,*ptr3,*ptr4;
     int n;
     hospitals();
     scanf("%d", &n);
     switch(n){
         case 1:
         ptr = fopen("./Database/AIIMS/patient.csv","a+");
+        ptr3 = fopen("./Database/AIIMS/ID.txt", "a+");
+        ptr4 = fopen("./Database/AIIMS/temp.txt", "w");
         if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -199,6 +201,8 @@ void addrecord(){
         break;
         case 2:
         ptr = fopen("./Database/Apollo/patient.csv","a+");
+        ptr3 = fopen("./Database/Apollo/ID.txt", "a+");
+        ptr4 = fopen("./Database/Apollo/temp.txt", "w");
         if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -206,6 +210,8 @@ void addrecord(){
         break;
         case 3:
         ptr = fopen("./Database/Fortis/patient.csv","a+");
+        ptr3 = fopen("./Database/Fortis/ID.txt", "a+");
+        ptr4 = fopen("./Database/Fortis/temp.txt", "w");
         if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -213,6 +219,8 @@ void addrecord(){
         break;
         case 4:
         ptr = fopen("./Database/Max Super/patient.csv","a+");
+        ptr3 = fopen("./Database/Max Super/ID.txt", "a+");
+        ptr4 = fopen("./Database/Max Super/temp.txt", "w");
         if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -220,6 +228,8 @@ void addrecord(){
         break;
         case 5: 
         ptr = fopen("./Database/Vedanta/patient.csv","a+");
+        ptr3 = fopen("./Database/Vedanta/ID.txt", "a+");
+        ptr4 = fopen("./Database/Vedanta/temp.txt", "w");
         if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -231,7 +241,7 @@ void addrecord(){
     }
 
     char b[4],c[11],d[11],e[4],f,g[11];
-    get_id(n,b);
+    get_id(n,b,ptr3,ptr4);
     fflush(stdin);
     printf("\n\n");
     give_tab();printf("Generated I'd and Bed Number are %s,%s\n",b,b);fflush(stdin);
@@ -250,8 +260,53 @@ void addrecord(){
 }
 
 //Generating Id and bed number
-void get_id(int n,char b[4]){
-    FILE *ptr = fopen("./Database/Vacant.csv","a+"), *ptr2 = fopen("./Database/temp.csv","a+");
+void get_id(int n,char b[4],FILE *ptr3,FILE *ptr4){
+    char info1[100];
+    char *token;
+    int c=100,row=1;
+    while(fgets(info1,sizeof(info1),ptr3)){
+        fseek(ptr3, 0L, SEEK_END); 
+        long int size = ftell(ptr3); 
+        if(size==0)break;
+        token = strtok(info1, ",");
+        while( token != NULL ) {
+            if(row==1){
+                c=atoi(token);
+                sprintf(b, "%d", c);
+                b = token;printf("%s",b);
+                row++;
+                token = strtok(NULL, ",");continue;
+            }
+            fprintf(ptr4,"%s,",token);
+            token = strtok(NULL, ",");
+    }
+    fclose(ptr4);fclose(ptr3);
+    switch(n){
+            case 1:
+            remove("./Database/AIIMS/ID.txt");
+            rename("./Database/AIIMS/temp.txt","./Database/AIIMS/ID.txt");
+            break;
+            case 2:
+            remove("./Database/Apollo/ID.txt");
+            rename("./Database/Apollo/temp.txt","./Database/Apollo/ID.txt");
+            break;
+            case 3:
+            remove("./Database/Fortis/ID.txt");
+            rename("./Database/Fortis/temp.txt","./Database/Fortis/ID.txt");
+            break;
+            case 4:
+            remove("./Database/Max Super/ID.txt");
+            rename("./Database/Max Super/temp.txt","./Database/Max Super/ID.txt");
+            break;
+            case 5: 
+            remove("./Database/Vedanta/ID.txt");
+            rename("./Database/Vedanta/temp.txt","./Database/Vedanta/ID.txt");
+            break;
+    }
+    return;
+    }
+    fclose(ptr4);fclose(ptr3);
+    FILE *ptr = fopen("./Database/Vacant.csv","a+"), *ptr2 = fopen("./Database/temp.csv","w");
     if(ptr==NULL){
         perror("Unable to open file");
         return ;
@@ -267,6 +322,13 @@ void get_id(int n,char b[4]){
             if(i==n+1 && j==3){
                 int c;  
                 c=atoi(token);c=c+1;
+                if(c>=101){
+                    printf("\n\t\t\t");
+                    printf("Seats in Choosen Hospital are full please choose other hospitals :)");
+                    remove("./Database/temp.csv");
+                    getch();
+                    main_menu();
+                }
                 sprintf(b, "%d", c);
                 token = strtok(NULL, ",");
             }
@@ -592,7 +654,7 @@ void deleterecord(){
             }
             fscanf(ptr, "%*[^\n]s");
         }
-        fprintf(ptr2,"%d\n", id);
+        fprintf(ptr2,"%d,", id);
         fclose(ptr);
         fclose(ptr2);
         give_tab();printf("Press enter to go back to main menu....");
