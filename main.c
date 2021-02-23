@@ -2,6 +2,8 @@
 #include<conio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<math.h>
+#include<ctype.h>
 
 //###########################################################function declartion########################################################
 void welcome_screen();
@@ -12,6 +14,7 @@ void signup();
 void mainmenu_heading();
 void give_tab();
 void hospitals();
+int recordchecker(char [],int );
 void addrecord();
 void listrecord();
 void editrecord();
@@ -55,7 +58,7 @@ void title(){
 void mainmenu_heading(){
     printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n");
     printf("\t\t\t\t\t\t\t\t\t\t         Main Menu\n");
-    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n\n\n");
 }
 // printinging tab
 void give_tab(){
@@ -91,17 +94,17 @@ void login(){
         scanf("%s",password);
         // using strcmp to compare strings --->https://www.geeksforgeeks.org/strcmp-in-c-cpp/
         if(strcmp(username,original_username)==0 && strcmp(password,original_password)==0){
-            printf("\n\n\t\t\t\t\t\t\t\t\tLOGGED in SICCSSFULLY !! :) :)\n");
+            printf("\n\t\t\t\t\t\t\t\t\tLOGGED in SICCSSFULLY !! :) :)\n");
             break;
         }
         else{
             attempt++;
-            printf("\n\n\t\t\t\t\t\t\t\t\tInvalid Username or Password!!\n");
-            printf("\t\t\t\t\t\t\t\t\tYou are left with %d attempts\n\n\n",(3-attempt));
+            printf("\n\t\t\t\t\t\t\t\t\tInvalid Username or Password!!\n");
+            printf("\t\t\t\t\t\t\t\t\tYou are left with %d attempts\n\n",(3-attempt));
         }
     }while(attempt<3);
     if(attempt>=3){
-        printf("\n\n\t\t\t\t\t\t\t\tSorry! You are a Unauthorized user :( :(\n");
+        printf("\t\t\t\t\t\t\t\tSorry! You are a Unauthorized user :( :(\n");
     }
     else{
         printf("Press any key to continue...");
@@ -148,8 +151,9 @@ void main_menu(){
             _e_xit();
             return;
             break;
-            default: 
-            give_tab();printf("Invalid entry, press enter to try again\n"); getch();
+            default:
+            printf("\n"); 
+            give_tab();printf("Invalid entry, press enter to try again "); getch();printf("\n");
             continue;
         }
     }
@@ -159,12 +163,16 @@ void main_menu(){
 void _e_xit(){
     system("cls");  
     title();
-    give_tab();printf("This code is written and maintained by---\n");
-    give_tab();printf("1. Ansh IMT-014\n");
-    give_tab();printf("2. Ketan IMT-044\n");
+    give_tab();printf("This code is written and maintained by---\n\n");
+    give_tab();printf("1. Ankit IMT-011\n");
+    give_tab();printf("2. Ansh IMT-013\n");
     give_tab();printf("3. Arun IMT-016\n");
-    give_tab();printf("Press any key to exit...\n");getch();
-    give_tab();printf("exiting............\n");
+    give_tab();printf("4. Ketan IMT-044\n\n");
+    give_tab();printf("Press any key to exit...");
+    getch();
+    printf("\n\n");
+    give_tab();printf("Exiting............");
+    exit(0);
     return;
 }
 
@@ -184,7 +192,7 @@ void checker(char str[]){
 }
 void addrecord(){
     system("cls");
-    title();printf("\t\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!\n\n\n");
+    title();printf("\n\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!!!!!! ADD PATIENT RECORD !!!!!!!!!!!!!!!!!!!\n\n\n");
     FILE *ptr,*ptr3,*ptr4;
     int n;
     hospitals();
@@ -240,17 +248,29 @@ void addrecord(){
         break;
     }
 
-    char b[4],c[11],d[11],e[4],f,g[11];
+    char b[4],c[11],d[11],e[4],f[4],g[11];
+    int rc,check1,check2,check3,check4,check5;
+    rc = check1 = check2 = check3 = check4 = check5 = 0;
     get_id(n,b,ptr3,ptr4);
     fflush(stdin);
     printf("\n\n");
-    give_tab();printf("Generated I'd and Bed Number are %s,%s\n",b,b);fflush(stdin);
-    give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
-    give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
-    give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
-    give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
-    give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
-    fprintf(ptr,"%s,%3s,%10s,%10s,%3s,%c,%10s\n",b,b,c,d,e,f,g);
+    give_tab();printf("Generated I'D and bed number is %s %s\n",b,b);
+    start:
+    rc = 0;
+    give_tab();printf("Enter patient's First name: ");scanf("%s",c);rc++;while(1) {if(c[0]>=97 && c[0]<=122) c[0] = c[0] - 32; break;} check1 = recordchecker(c,rc); if(!check1) goto start ; fflush(stdin);
+    start1:
+    rc = 1;
+    give_tab();printf("Enter patient's Last name: ");scanf("%s",d);rc++;while(1) {if(d[0]>=97 && d[0]<=122) d[0] = d[0] - 32; break;} check2 = recordchecker(d,rc); if(!check2) goto start1; fflush(stdin);
+    start2:
+    rc = 2;
+    give_tab();printf("Enter patient's Age: ");scanf("%s",e);rc++; check3 = recordchecker(e,rc); if(!check3) goto start2; fflush(stdin);
+    start3:
+    rc = 3;
+    give_tab();printf("Enter patient's gender: ");scanf("%s",f);rc++;while(1) {if(f[0]>=97 && f[0]<=122) f[0] = f[0] - 32; break;} check4 = recordchecker(f,rc); if(!check4) goto start3; fflush(stdin);
+    start4:
+    rc = 4;
+    give_tab();printf("Enter patient's Number: ");scanf("%s",g);rc++; check5 = recordchecker(g,rc); if(!check5) goto start4; fflush(stdin);
+    fprintf(ptr,"%s,%2s,%10s,%10s,%2s,%s,%10s\n",b,b,c,d,e,f,g);
     fclose(ptr);
     give_tab();printf("Record Created Successfully!!\n\n");
     char choice;
@@ -359,7 +379,8 @@ void get_id(int n,char b[4],FILE *ptr3,FILE *ptr4){
 // Listing patient record
 void listrecord(){
     system("cls");
-    title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! PATIENT RECORD !!!!!!!!!!!!!!!\n");
+    title();
+    printf("\n\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!!!!!!!! PATIENT RECORD !!!!!!!!!!!!!!!!!!!!!\n\n");
     FILE *ptr;
     int n;
     hospitals();
@@ -418,7 +439,8 @@ void listrecord(){
     }
     fclose(ptr);
     printf("\n");
-    give_tab();printf("This is the end of record");
+    give_tab();printf("This is the end of record\n");
+    give_tab();printf("Press any key to continue.....");
     getch();
     return;
 }
@@ -429,7 +451,7 @@ void show_vacant_beds(){
     title();
     printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n");
     printf("\t\t\t\t\t\t\t\t\t\t         Vacant Beds\n");
-    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n\n\n\n");
+    printf("\t\t\t\t\t\t\t\t\t\t---------------------------\n\n");
     FILE *ptr;
     ptr = fopen("./Database/Vacant.csv","r");
     if(ptr==NULL){
@@ -449,7 +471,8 @@ void show_vacant_beds(){
     }
     fclose(ptr);
     printf("\n");
-    give_tab();printf("This is the end of record");
+    give_tab();printf("This is the end of record\n");
+    give_tab();printf("Press any key to continue.....");
     getch();
     return;
 }
@@ -457,11 +480,12 @@ void show_vacant_beds(){
 void editrecord(){
     while(1){
         system("cls");
-        title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! EDIT PATIENT RECORD !!!!!!!!!!!!!!!\n");
+        title();printf("\n\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!!!!!!! EDIT PATIENT RECORD !!!!!!!!!!!!!!!!!\n\n");
         FILE *ptr;
         int n, id, id1, i, occupied;
         hospitals();
         scanf("%d", &n);
+        printf("\n\n");
         switch(n){
             case 1:
             ptr = fopen("./Database/AIIMS/patient.csv","r+");
@@ -555,8 +579,9 @@ void editrecord(){
             give_tab();printf("Invalid entry, press enter to try again\n"); getch();
             break;
         }
-
-        printf("Enter patient ID: ");
+        
+        printf("\n");
+        give_tab();printf("Enter patient ID: ");
         scanf("%d", &id);
         fscanf(ptr, "%*[^\n]s");
         
@@ -566,20 +591,21 @@ void editrecord(){
                 char b[4],c[11],d[11],e[4],f,g[11];
                 fflush(stdin);
                 give_tab();printf("Enter the new info: \n");
-                give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
+                //give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
+                sprintf(b, "%d", id);
                 give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
                 give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
                 give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
                 give_tab();printf("Enter patient's gender: ");scanf("%c",&f);fflush(stdin);
                 give_tab();printf("Enter patient's Number: ");scanf("%s",g);fflush(stdin);
-                fprintf(ptr,",%3s,%10s,%10s,%3s,%c,%10s",b,c,d,e,f,g);
+                fprintf(ptr,",%s,%10s,%10s,%s,%c,%10s",b,c,d,e,f,g); 
                 fseek(ptr, 0, SEEK_SET);
                 break;
             }
             fscanf(ptr, "%*[^\n]s");
         }
         fclose(ptr);
-        printf("Do you want to edit more records (y/n) ?");
+        give_tab();printf("Do you want to edit more records (y/n) ?");
         char choice; 
         fflush(stdin);
         scanf("%c", &choice);
@@ -591,7 +617,7 @@ void editrecord(){
 void deleterecord(){
     while(1){
         system("cls");
-        title();printf("\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!! DELETE PATIENT RECORD !!!!!!!!!!!!!!!\n");
+        title();printf("\n\t\t\t\t\t\t\t\t!!!!!!!!!!!!!!!!!! DELETE PATIENT RECORD !!!!!!!!!!!!!!!!!\n\n");
         FILE *ptr, *ptr2;
         int n, id, id1, i, occupied;
         hospitals();
@@ -657,12 +683,90 @@ void deleterecord(){
         fprintf(ptr2,"%d,", id);
         fclose(ptr);
         fclose(ptr2);
-        give_tab();printf("Press enter to go back to main menu....");
-        printf("Do you wish to delete more records (y/n) ?");
+       // give_tab();printf("Press enter to go back to main menu....");
+        give_tab();printf("Do you wish to delete more records (y/n) ?");
         fflush(stdin);
         char choice;
         scanf("%c", &choice);
         if (choice == 'y') continue;
         else break;
     }
+}
+
+
+// For checking the input record by the user 
+int recordchecker(char check[],int rc)
+{
+    int l,zz=1,i;
+    l = strlen(check);
+
+    if(rc==1 || rc==2)
+    {
+        for(i=0;i<l;i++)
+        {
+            if(!isalpha(check[i]))
+            {
+                zz = 0;
+                give_tab();
+                printf("Enter carefully, some character is not a alphabet\n");
+                break;
+            }
+        }
+    }
+
+    else if(rc==3)
+    {
+        for(i=0;i<l;i++)
+        {
+            if(!isdigit(check[i]))
+            {
+                zz = 0;give_tab();
+                printf("Enter carefully, some are not digits\n");
+                break;
+            }
+        }
+    }
+
+    else if(rc==4)
+    {
+        for(i=0;i<l;i++)
+        {
+            if(check[i]=='f' || check[i]=='F' || check[i]=='m' || check[i]=='M')
+            {
+                continue;
+            }
+            else
+            {
+                zz = 0;give_tab();
+                printf("Enter carefully, characters are not F/f/M/m\n");
+            }
+        }
+    }
+
+    else if(rc==5)
+    {
+        for(i=0;i<l;i++)
+        {
+            if(l!=10)
+            {
+                zz = 0;give_tab();
+                printf("Length of number is either more or less than 10\n");
+                break;
+            }
+            else if(check[0]<'6')
+            {
+                zz = 0;give_tab();
+                printf("Not valid number\n");
+                break;
+            }
+            else if(!isdigit(check[i]))
+            {
+                zz = 0;give_tab();
+                printf("Enter carefully, number did not have number\n");
+                break;
+            }
+        }
+    }
+
+    return (zz);
 }
