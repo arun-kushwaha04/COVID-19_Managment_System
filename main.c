@@ -7,6 +7,7 @@
 
 //###########################################################function declartion########################################################
 void welcome_screen();
+void welcome_screen_infection_checker();
 void title();
 void login();
 void main_menu();
@@ -15,6 +16,7 @@ void mainmenu_heading();
 void give_tab();
 void hospitals();
 int recordchecker(char [],int );
+void infectionrate();
 void addrecord();
 void listrecord();
 void editrecord();
@@ -32,7 +34,19 @@ int main(){
 
 
 //##################################################################function logic########################################################
-
+void welcome_screen_infection_checker(){
+    printf("\n\n\n\n\n");
+    printf("\t\t\t\t\t\t\t###################################################\n");
+    printf("\t\t\t\t\t\t\t#                                                 #\n");
+    printf("\t\t\t\t\t\t\t#                                                 #\n");
+    printf("\t\t\t\t\t\t\t#             COVID-19 INFECTION CHECKER          #\n");
+    printf("\t\t\t\t\t\t\t#                                                 #\n");
+    printf("\t\t\t\t\t\t\t#                                                 #\n");  
+    printf("\t\t\t\t\t\t\t###################################################\n");
+    printf("Press any key to continue...");
+    getch();
+    system("cls");
+}
 //printing welcome screen
 void welcome_screen(){
     printf("\n\n\n\n\n");
@@ -126,8 +140,9 @@ void main_menu(){
         give_tab();printf("3. List Patient Record\n\n"); 
         give_tab();printf("4. Edit Patient Record\n\n"); 
         give_tab();printf("5. Delete Patient Record\n\n");
-        give_tab();printf("6. Exit\n\n"); 
-        give_tab();printf("Enter a number between 1-6\n\n");
+        give_tab();printf("6. Check your Saftey\n\n");
+        give_tab();printf("7. Exit\n\n"); 
+        give_tab();printf("Enter a number between 1-7\n\n");
         give_tab();printf("Enter your choice: ");
         int n;
         scanf("%d", &n);
@@ -148,6 +163,10 @@ void main_menu(){
             deleterecord(); 
             break;
             case 6:
+            infectionrate();
+            return;
+            break;
+            case 7:
             _e_xit();
             return;
             break;
@@ -592,7 +611,7 @@ void editrecord(){
                 fflush(stdin);
                 give_tab();printf("Enter the new info: \n");
                 //give_tab();printf("Enter patient's Bed number: ");scanf("%s",b);fflush(stdin);
-                sprintf(b, "%d", id);
+                sprintf(b,"%d",id);
                 give_tab();printf("Enter patient's First name: ");scanf("%s",c);fflush(stdin);
                 give_tab();printf("Enter patient's Last name: ");scanf("%s",d);fflush(stdin);
                 give_tab();printf("Enter patient's Age: ");scanf("%s",e);fflush(stdin);
@@ -707,7 +726,6 @@ int recordchecker(char check[],int rc)
             if(!isalpha(check[i]))
             {
                 zz = 0;
-                give_tab();
                 printf("Enter carefully, some character is not a alphabet\n");
                 break;
             }
@@ -720,7 +738,7 @@ int recordchecker(char check[],int rc)
         {
             if(!isdigit(check[i]))
             {
-                zz = 0;give_tab();
+                zz = 0;
                 printf("Enter carefully, some are not digits\n");
                 break;
             }
@@ -737,7 +755,7 @@ int recordchecker(char check[],int rc)
             }
             else
             {
-                zz = 0;give_tab();
+                zz = 0;
                 printf("Enter carefully, characters are not F/f/M/m\n");
             }
         }
@@ -749,24 +767,174 @@ int recordchecker(char check[],int rc)
         {
             if(l!=10)
             {
-                zz = 0;give_tab();
+                zz = 0;
                 printf("Length of number is either more or less than 10\n");
                 break;
             }
             else if(check[0]<'6')
             {
-                zz = 0;give_tab();
+                zz = 0;
                 printf("Not valid number\n");
                 break;
             }
             else if(!isdigit(check[i]))
             {
-                zz = 0;give_tab();
+                zz = 0;
                 printf("Enter carefully, number did not have number\n");
                 break;
             }
         }
     }
-
     return (zz);
+}
+
+// To find the infection rate of any patient
+void infectionrate()
+{
+    system("cls");
+    welcome_screen_infection_checker();
+    char a,b,c,d,e,f,firstname[20],lastname[20],state[20];
+    int i,j=1,age,x,count=0,p;
+        for (int i=0;i<100;i++)
+        {
+           printf("%c",j);
+        }
+        printf("\n\n\t\t\xB3\xB2=\xB2=\xB2-\xB3 INFECTION RATE TEST COVID19  \xB3\xB2=\xB2=\xB2-\xB3\n\n");
+ 
+        for(int i=0;i<100;i++)
+        {
+            printf("%c",j);
+        }
+
+   printf("\n\n");
+   printf("\t\t\t\tPLEASE ENTER YOUR BASIC INFORMATION \n\n");
+   printf("\tFIRST NAME:- ");
+   scanf("%s",firstname);
+   printf("\tLAST NAME:-");
+   scanf("%s",lastname);
+   printf("\tAGE:- ");
+   scanf("%d", &age);
+   if (age<=13 || age>=50)
+   {
+       count+=1;
+   }
+
+   printf("\tSTATE:- ");
+   scanf("%s",state);
+
+   for(int i=0;i<100;i++)
+    {
+        printf("%c",j);
+    }
+
+   printf("\n");
+
+
+   printf("\t\t\t\t PLEASE ANSWER THE FOLLOWING QUESTION CORRECTLY\n");
+   printf("\n\n\tDo you have any travel history across INDIA between jan to mar?(y/n)\nAns:- ");
+   fflush(stdin);
+   scanf("%c",&a);
+   if(a=='y' || a=='Y')
+   {
+        count+=2;
+   }
+    printf("\n\n\t Do you came in contact with any covid infected parson?(y/n)\nAns:- ");
+    fflush(stdin);
+    scanf("%c", &b);
+    if(b=='y' || b=='Y')
+    {
+        count+=2;
+    }
+
+    printf("\n\n\t Is there any covid patient in the range of 1 km?(y/n)\nAns:-  ");
+    fflush(stdin);
+    scanf("%c", &c);
+    if(c=='y' || c=='Y')
+    {
+       count+=2;
+    }
+    printf("\n\n\tAre you suffering of any kind of diseases like CANCER,DIABETES or LUNGS DISEASES?(y/n)\nAns:- ");
+    fflush(stdin);
+    scanf("%c", &d);
+    if(d=='y' || d=='Y')
+    {
+       count+=1;
+    }
+    printf("\n\n\tPlease let us know your body temperature(in C)\n Ans:-");
+    scanf("%d",&x);
+    if (x>=38)
+    {
+       count+=1;
+    }
+    printf("\n\n\t If you are suffering from any one write (y/n)\n\t1) Dry cough \n\t2) Shortness of breath \n\t3) Headaches \n\t4) Aches and Pains \n\t5) Sore throat \n\t6) fatigue \n\t7) Diarrhea  \nAns:- ");
+    fflush(stdin);
+    scanf("%c",&e);
+    if(e=='y' || e=='Y')
+    {
+       count+=1;
+    }
+    printf("\n\n\tAre you suffering from bp or suger problem?(y/n)\n Ans:- ");
+    fflush(stdin);
+    scanf("%c",&f);
+    if (f=='y'|| f=='Y')
+    {
+       count+=1;
+    }
+
+    printf("\n\n");
+    for(int i=0;i<100;i++)
+    {
+        printf("%c",j);
+    }
+    printf("\n");
+    printf("\t\t\t\t PLEASE WAIT WHILE WE ARE ANALYSING DATA \n");
+    int s=10;
+    while (1)
+    {
+        //printf("\n\t%d",s);
+        sleep(0);
+        // give_tab();
+        // printf("Analysing./././\n");
+        // give_tab();printf("\n\nPress any key to continue....");
+        // getch();
+        s--;
+
+        if (s==0 )
+        {
+            printf("\n");
+            for(int i=0;i<100;i++)
+            {
+                printf("%c",j);
+            }
+            printf("\n");
+            printf("\n\n");
+            for(int i=0;i<100;i++)
+            {
+                printf("%c",j);
+            }
+            printf("\n\n\t\t  \xB3\xB2=\xB2=\xB2-\xB3\xB3\xB2=\xB2=\xB2-\xB3            REPORT            \xB3\xB2=\xB2=\xB2-\xB3\xB3\xB2=\xB2=\xB2-\xB3\n\n");
+            for(int i=0;i<100;i++)
+            {
+                printf("%c",j);
+            }
+            printf("\n");
+            printf("\n\t \t\tFirst Name\t\tLast Name  \t\tAge \t\tState \n");
+            printf("\n\t \t\t %s\t\t\t%s  \t\t\t%d \t\t%s \n",firstname,lastname,age,state);
+            count=count*10;
+
+           printf("\n\nYOUR RATE OF BEING INFECTED IS %d percent\n",count);
+           break;
+ 
+        }
+    }
+    char z1[4];
+    give_tab();printf("\n\nPress any key to continue....");
+    getch();
+    give_tab();printf("\n\nWant to find infection rate of any other ?[y/n] ");
+    scanf("%s",z1);
+    printf("\n\n");
+    if(strcmp(z1,"y")==0)
+    infectionrate();
+    
+    system("cls");
 }
